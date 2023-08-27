@@ -12,3 +12,10 @@
 
 ### ✨ Roadmap:
 - [ ] Use kitty in favor of foot
+
+### to run
+- clone this repo by using git. Change directory, make executable and run the script
+- git clone https://github.com/JaKooLit/Hyprland-v3.1.git 
+- cd Hyprland-v3.1 
+- chmod +x install-hyprland-v3.1 
+- ./install-hyprland-v3.1
