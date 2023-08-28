@@ -4,8 +4,9 @@
 
 ![alt text](https://github.com/JaKooLit/Hyprland-v3.1/blob/main/screenshots/Sample-Tokyo-waybar.png "Default")
 
-### ✨ What's new
+### ✨ This is only a single theme, single waybar. No Dark or Light modes.
 
+### ✨ What's new
 - a. Can modify the packages easily on the install-script
 - b. Dropped the Mc Mojave theme (apple like) in favor with Tokyo-night-theme
 - c. using dunst instead of mako
@@ -33,7 +34,3 @@ source .zshrc
 - [ ] Use kitty in favor of foot
 - [ ] Install zsh and oh-my-zsh without necessary steps above
 
-
-
-### Special thanks to:
-- @markob94 for testing of this script and fine tuning initial bugs
