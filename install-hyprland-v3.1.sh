@@ -11,60 +11,60 @@ Extra=(
 )
 
 hypr_package=( 
-	cliphist
-	dunst 
-	foot
-	grim 
-	gvfs 
-	gvfs-mtp 
-	jq  
-	network-manager-applet 
- 	pamixer 
-	pavucontrol
-	pipewire-alsa 
-	playerctl
-	polkit-kde-agent 
-	python-requests 
-	qt5ct 
-	slurp 
-	swappy 
-	swayidle 
-	swaylock-effects 
-	swww 
-	waybar
-	wget
-	wl-clipboard 
-	wlogout
-	wofi 
- 	xdg-user-dirs 
+cliphist
+dunst 
+foot
+grim 
+gvfs 
+gvfs-mtp 
+jq  
+network-manager-applet 
+pamixer 
+pavucontrol
+pipewire-alsa 
+playerctl
+polkit-kde-agent 
+python-requests 
+qt5ct 
+slurp 
+swappy 
+swayidle 
+swaylock-effects 
+swww 
+waybar
+wget
+wl-clipboard 
+wlogout
+wofi 
+xdg-user-dirs 
 )
 
 # the following packages can be deleted. however, dotfiles may not work properly
 hypr_package_2=(
-	brightnessctl 
-	btop
-	cava
-	ffmpegthumbs
-	mission-center 
-	mousepad 
-	mpv 
-	nano
-	nvtop
-	nwg-look-bin
-	swaybg
-	viewnior
-	wlsunset
+brightnessctl 
+btop
+cava
+ffmpegthumbs
+mission-center 
+mousepad 
+mpv 
+nano
+nvtop
+nwg-look-bin
+swaybg
+viewnior
+wlsunset
 )
 
 fonts=(
-    adobe-source-code-pro-fonts 
-    noto-fonts-emoji
-    otf-font-awesome 
-    otf-font-awesome-4 
-    ttf-droid 
-    ttf-fantasque-sans-mono 
-    ttf-jetbrains-mono 
-    ttf-jetbrains-mono-nerd 
+adobe-source-code-pro-fonts 
+noto-fonts-emoji
+otf-font-awesome 
+otf-font-awesome-4 
+ttf-droid 
+ttf-fantasque-sans-mono 
+ttf-jetbrains-mono 
+ttf-jetbrains-mono-nerd 
 )
 
 
@@ -154,38 +154,38 @@ clear
 ISAUR=$(command -v yay || command -v paru)
 
 if [ -n "$ISAUR" ]; then
-    printf "\n%s - AUR helper was located, moving on.\n" "${OK}"
-else 
-    printf "\n%s - AUR helper was NOT located\n" "$WARN"
+  printf "\n%s - AUR helper was located, moving on.\n" "${OK}"
+else
+  printf "\n%s - AUR helper was NOT located\n" "$WARN"
 
-    while true; do
-        read -rp "${CAT} Which AUR helper do you want to use, yay or paru? Enter 'y' or 'p': " choice 
-        case "$choice" in
-            y|Y)
-                printf "\n%s - Installing yay from AUR\n" "${NOTE}"
-                git clone https://aur.archlinux.org/yay-bin.git || { printf "%s - Failed to clone yay from AUR\n" "${ERROR}"; exit 1; }
-                cd yay-bin || { printf "%s - Failed to enter yay-bin directory\n" "${ERROR}"; exit 1; }
-                makepkg -si --noconfirm 2>&1 | tee -a "$LOG" || { printf "%s - Failed to install yay from AUR\n" "${ERROR}"; exit 1; }
-                cd ..
-                break
-                ;;
-            p|P)
-                printf "\n%s - Installing paru from AUR\n" "${NOTE}"
-                git clone https://aur.archlinux.org/paru-bin.git || { printf "%s - Failed to clone paru from AUR\n" "${ERROR}"; exit 1; }
-                cd paru-bin || { printf "%s - Failed to enter paru-bin directory\n" "${ERROR}"; exit 1; }
-                makepkg -si --noconfirm 2>&1 | tee -a "$LOG" || { printf "%s - Failed to install paru from AUR\n" "${ERROR}"; exit 1; }
-                cd ..
-                break
-                ;;
-            *)
-                printf "%s - Invalid choice. Please enter 'y' or 'p'\n" "${ERROR}"
-                continue
-                ;;
-        esac
-    done
+  while true; do
+    read -rp "${CAT} Which AUR helper do you want to use, yay or paru? Enter 'y' or 'p': " choice
+    case "$choice" in
+      y|Y)
+        printf "\n%s - Installing yay from AUR\n" "${NOTE}"
+        git clone https://aur.archlinux.org/yay-bin.git || { printf "%s - Failed to clone yay from AUR\n" "${ERROR}"; exit 1; }
+        cd yay-bin || { printf "%s - Failed to enter yay-bin directory\n" "${ERROR}"; exit 1; }
+        makepkg -si --noconfirm 2>&1 | tee -a "$LOG" || { printf "%s - Failed to install yay from AUR\n" "${ERROR}"; exit 1; }
+        cd ..
+        break
+        ;;
+      p|P)
+        printf "\n%s - Installing paru from AUR\n" "${NOTE}"
+        git clone https://aur.archlinux.org/paru-bin.git || { printf "%s - Failed to clone paru from AUR\n" "${ERROR}"; exit 1; }
+        cd paru-bin || { printf "%s - Failed to enter paru-bin directory\n" "${ERROR}"; exit 1; }
+        makepkg -si --noconfirm 2>&1 | tee -a "$LOG" || { printf "%s - Failed to install paru from AUR\n" "${ERROR}"; exit 1; }
+        cd ..
+        break
+        ;;
+      *)
+        printf "%s - Invalid choice. Please enter 'y' or 'p'\n" "${ERROR}"
+        continue
+        ;;
+    esac
+  done
 fi
 
-#clear screen
+# Clear screen
 clear
 
 # Update system before proceeding
@@ -202,22 +202,22 @@ set -e
 
 # Function for installing packages
 install_package() {
-    # checking if package is already installed
+  # Checking if package is already installed
+  if $ISAUR -Q "$1" &>> /dev/null ; then
+    echo -e "${OK} $1 is already installed. Skipping..."
+  else
+    # Package not installed
+    echo -e "${NOTE} Installing $1 ..."
+    $ISAUR -S --noconfirm "$1" 2>&1 | tee -a "$LOG"
+    # Making sure package is installed
     if $ISAUR -Q "$1" &>> /dev/null ; then
-        echo -e "${OK} $1 is already installed. skipping..."
+      echo -e "\e[1A\e[K${OK} $1 was installed."
     else
-        # package not installed
-        echo -e "${NOTE} installing $1 ..."
-        $ISAUR -S --noconfirm "$1" 2>&1 | tee -a "$LOG"
-        # making sure package installed
-        if $ISAUR -Q "$1" &>> /dev/null ; then
-            echo -e "\e[1A\e[K${OK} $1 was installed."
-        else
-            # something is missing, exitting to review log
-            echo -e "\e[1A\e[K${ERROR} $1 failed to install :( , please check the install.log . You may need to install manually! Sorry I have tried :("
-            exit 1
-        fi
+      # Something is missing, exiting to review log
+      echo -e "\e[1A\e[K${ERROR} $1 failed to install :( , please check the install.log. You may need to install manually! Sorry I have tried :("
+      exit 1
     fi
+  fi
 }
 
 # Function to print error messages
@@ -235,242 +235,231 @@ set -e
 
 # Hyprland Main installation part including automatic detection of Nvidia-GPU is present in your system
 if ! lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
-    printf "${YELLOW} No NVIDIA GPU detected in your system. Installing Hyprland without Nvidia support..."
-    sleep 1
-    for HYP in hyprland; do
-        install_package "$HYP" 2>&1 | tee -a $LOG
-    done
+  printf "${YELLOW} No NVIDIA GPU detected in your system. Installing Hyprland without Nvidia support..."
+  sleep 1
+  for HYP in hyprland; do
+    install_package "$HYP" 2>&1 | tee -a $LOG
+  done
 else
-	# Prompt user for Nvidia installation
-	printf "${YELLOW} NVIDIA GPU Detected. TAKE NOTE that nvidia-wayland still a hit and miss. Any hyprland issues to be reported in Hyprland-github!\n"
-	sleep 1
-	printf "${YELLOW} Kindly enable some Nvidia-related stuff in the ~/.config/hypr/configs/ENVariables.conf after installation. Consult Hyprland-nvidia wiki!\n"
-	sleep 2
-	read -n1 -rp "${CAT} Would you like to install Nvidia Hyprland? (y/n) " NVIDIA
-	echo
+  # Prompt user for Nvidia installation
+  printf "${YELLOW} NVIDIA GPU Detected. TAKE NOTE that nvidia-wayland still a hit and miss. Any hyprland issues to be reported in Hyprland-github!\n"
+  sleep 1
+  printf "${YELLOW} Kindly enable some Nvidia-related stuff in the ~/.config/hypr/configs/ENVariables.conf after installation. Consult Hyprland-nvidia wiki!\n"
+  sleep 2
+  read -n1 -rp "${CAT} Would you like to install Nvidia Hyprland? (y/n) " NVIDIA
+  echo
 
-	if [[ $NVIDIA =~ ^[Yy]$ ]]; then
-    	# Install Nvidia Hyprland
-    	printf "\n"
-    	printf "${YELLOW}Installing Nvidia Hyprland...${RESET}\n"
-    	if pacman -Qs hyprland > /dev/null; then
-        	read -n1 -rp "${CAT} Hyprland detected. Would you like to remove and install hyprland-nvidia instead? (y/n) " nvidia_hypr
-        	echo
-        	if [[ $nvidia_hypr =~ ^[Yy]$ ]]; then
-            	sudo pacman -R --noconfirm hyprland 2>/dev/null | tee -a "$LOG" || true
-        	fi
-    		fi
-    		for hyprnvi in hyprland hyprland-nvidia hyprland-nvidia-hidpi-git; do
-        	sudo pacman -R --noconfirm "$hyprnvi" 2>/dev/null | tee -a $LOG || true
-    		done
-    	install_package "hyprland-nvidia-git" 2>&1 | tee -a $LOG
-	else
-    		printf "\n"
-   	 	printf "${YELLOW} Installing non-Nvidia Hyprland...\n"
-    		for hyprnvi in hyprland-nvidia-git hyprland-nvidia hyprland-nvidia-hidpi-git; do
-        	sudo pacman -R --noconfirm "$hyprnvi" 2>/dev/null | tee -a $LOG || true
-    		done
-    		for HYP2 in hyprland; do
-        install_package "$HYP2" 2>&1 | tee -a $LOG
-    		done
-	fi
-
-    # Install additional nvidia packages
-	printf "\n"
-	printf "\n"
-    printf "\n${NOTE} Kindly take note nvidia-dkms support from GTX 900 series and newer. If you have nvidia drivers already installed, it maybe wise to choose n in here\n"  
-	read -n1 -rp "${CAT} Would you like to install nvidia-dkms driver, nvidia-settings and nvidia-utils? and all other nvidia-stuff (y/n) " nvidia_driver
-        echo
-        	if [[ $nvidia_driver =~ ^[Yy]$ ]]; then
-		printf "${YELLOW} Installing Nvidia packages...\n"
-        		for krnl in $(cat /usr/lib/modules/*/pkgbase); do
-            	for NVIDIA in "${krnl}-headers" nvidia-dkms nvidia-settings nvidia-utils libva libva-nvidia-driver-git; do
-            	install_package "$NVIDIA" 2>&1 | tee -a $LOG
-            	done
-        	done
-	else
-    	printf "${NOTE} YOU choose not to install nvidia stuff!.\n"
-	fi
-
-    #check if the nvidia modules are already added in mkinitcpio.conf and add if not
-    if grep -qE '^MODULES=.*nvidia. *nvidia_modeset.*nvidia_uvm.*nvidia_drm' /etc/mkinitcpio.conf; then
-	    echo "Nvidia modules already included in /etc/mkinitcpio.conf" 2>&1 | tee -a $LOG
-    else
-	    sudo sed -Ei 's/^(MODULES=\([^\)]*)\)/\1 nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf 2>&1 | tee -a $LOG
-	    echo "Nvidia modules added in /etc/mkinitcpio.conf"
+  if [[ $NVIDIA =~ ^[Yy]$ ]]; then
+    # Install Nvidia Hyprland
+    printf "\n"
+    printf "${YELLOW}Installing Nvidia Hyprland...${RESET}\n"
+    if pacman -Qs hyprland > /dev/null; then
+      read -n1 -rp "${CAT} Hyprland detected. Would you like to remove and install hyprland-nvidia instead? (y/n) " nvidia_hypr
+      echo
+      if [[ $nvidia_hypr =~ ^[Yy]$ ]]; then
+        sudo pacman -R --noconfirm hyprland 2>/dev/null | tee -a "$LOG" || true
+      fi
     fi
-        sudo mkinitcpio -P 2>&1 | tee -a $LOG
-    printf "\n"   
+    for hyprnvi in hyprland hyprland-nvidia hyprland-nvidia-hidpi-git; do
+      sudo pacman -R --noconfirm "$hyprnvi" 2>/dev/null | tee -a $LOG || true
+    done
+    install_package "hyprland-nvidia-git" 2>&1 | tee -a $LOG
+  else
     printf "\n"
+    printf "${YELLOW} Installing non-Nvidia Hyprland...\n"
+    for hyprnvi in hyprland-nvidia-git hyprland-nvidia hyprland-nvidia-hidpi-git; do
+      sudo pacman -R --noconfirm "$hyprnvi" 2>/dev/null | tee -a $LOG || true
+    done
+    for HYP2 in hyprland; do
+      install_package "$HYP2" 2>&1 | tee -a $LOG
+    done
+  fi
+
+  # Install additional nvidia packages
+  printf "\n"
+  printf "\n"
+  printf "\n${NOTE} Kindly take note nvidia-dkms support from GTX 900 series and newer. If you have nvidia drivers already installed, it may be wise to choose 'n' here\n"
+  read -n1 -rp "${CAT} Would you like to install nvidia-dkms driver, nvidia-settings and nvidia-utils? and all other nvidia-stuff (y/n) " nvidia_driver
+  echo
+  if [[ $nvidia_driver =~ ^[Yy]$ ]]; then
+    printf "${YELLOW} Installing Nvidia packages...\n"
+    for krnl in $(cat /usr/lib/modules/*/pkgbase); do
+      for NVIDIA in "${krnl}-headers" nvidia-dkms nvidia-settings nvidia-utils libva libva-nvidia-driver-git; do
+        install_package "$NVIDIA" 2>&1 | tee -a $LOG
+      done
+    done
+  else
+    printf "${NOTE} You choose not to install Nvidia stuff!\n"
+  fi
+
+  # Check if the nvidia modules are already added in mkinitcpio.conf and add if not
+  if grep -qE '^MODULES=.*nvidia. *nvidia_modeset.*nvidia_uvm.*nvidia_drm' /etc/mkinitcpio.conf; then
+    echo "Nvidia modules already included in /etc/mkinitcpio.conf" 2>&1 | tee -a $LOG
+  else
+    sudo sed -Ei 's/^(MODULES=\([^\)]*)\)/\1 nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf 2>&1 | tee -a $LOG
+    echo "Nvidia modules added in /etc/mkinitcpio.conf"
+  fi
+  sudo mkinitcpio -P 2>&1 | tee -a $LOG
+  printf "\n"
+  printf "\n"
+  printf "\n"
+
+  # Preparing exec.conf to enable env = WLR_NO_HARDWARE_CURSORS,1 so it will be ready once config files copied
+  sed -i '14s/#//' config/hypr/configs/ENVariables.conf
+
+  # Additional Nvidia steps
+  NVEA="/etc/modprobe.d/nvidia.conf"
+  if [ -f "$NVEA" ]; then
+    printf "${OK} Seems like nvidia-drm modeset=1 is already added in your system..moving on.\n"
     printf "\n"
+  else
+    printf "\n"
+    printf "${YELLOW} Adding options to $NVEA..."
+    sudo echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf 2>&1 | tee -a $LOG
+    printf "\n"
+  fi
 
-    # preparing exec.conf to enable env = WLR_NO_HARDWARE_CURSORS,1 so it will be ready once config files copied
-    sed -i '14s/#//' config/hypr/configs/ENVariables.conf
-    
-    # Additional Nvidia steps
-    NVEA="/etc/modprobe.d/nvidia.conf"
-    if [ -f "$NVEA" ]; then
-            printf "${OK} Seems like nvidia-drm modeset=1 is already added in your system..moving on.\n"
-            printf "\n"
-        else
-            printf "\n"
-            printf "${YELLOW} Adding options to $NVEA..."
-            sudo echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf 2>&1 | tee -a $LOG
-            printf "\n"  
-            fi
-    
-	# Blacklist nouveau
-	read -n1 -rep "${CAT} Would you like to blacklist nouveau? (y/n)" response
-	echo
-	if [[ $response =~ ^[Yy]$ ]]; then
-    	NOUVEAU="/etc/modprobe.d/nouveau.conf"
-    	if [ -f "$NOUVEAU" ]; then
-        	printf "${OK} Seems like nouveau is already blacklisted..moving on.\n"
-    	else
-        	printf "\n"
-        	echo "blacklist nouveau" | sudo tee -a "$NOUVEAU" 2>&1 | tee -a $LOG 
-        	printf "${NOTE} has been added to $NOUVEAU.\n"
-        	printf "\n"          
+  # Blacklist nouveau
+  read -n1 -rep "${CAT} Would you like to blacklist nouveau? (y/n)" response
+  echo
+  if [[ $response =~ ^[Yy]$ ]]; then
+    NOUVEAU="/etc/modprobe.d/nouveau.conf"
+    if [ -f "$NOUVEAU" ]; then
+      printf "${OK} Seems like nouveau is already blacklisted..moving on.\n"
+    else
+      printf "\n"
+      echo "blacklist nouveau" | sudo tee -a "$NOUVEAU" 2>&1 | tee -a $LOG
+      printf "${NOTE} has been added to $NOUVEAU.\n"
+      printf "\n"
 
-        	# to completely blacklist nouveau (See wiki.archlinux.org/title/Kernel_module#Blacklisting 6.1)
-        	if [ -f "/etc/modprobe.d/blacklist.conf" ]; then
-            	echo "install nouveau /bin/true" | sudo tee -a "/etc/modprobe.d/blacklist.conf" 2>&1 | tee -a $LOG 
-        	else
-            	echo "install nouveau /bin/true" | sudo tee "/etc/modprobe.d/blacklist.conf" 2>&1 | tee -a $LOG 
-        	fi
-    	fi
-	else
-    	printf "${NOTE} Skipping nouveau blacklisting.\n"
-	fi
-
+      # To completely blacklist nouveau (See wiki.archlinux.org/title/Kernel_module#Blacklisting 6.1)
+      if [ -f "/etc/modprobe.d/blacklist.conf" ]; then
+        echo "install nouveau /bin/true" | sudo tee -a "/etc/modprobe.d/blacklist.conf" 2>&1 | tee -a $LOG
+      else
+        echo "install nouveau /bin/true" | sudo tee "/etc/modprobe.d/blacklist.conf" 2>&1 | tee -a $LOG
+      fi
+    fi
+  else
+    printf "${NOTE} Skipping nouveau blacklisting.\n"
+  fi
 fi
 
-#clear screen
-clear 
+# Clear screen
+clear
 
-# installation of other components needed
+# Installation of other components needed
 printf "\n%s - Installing other necessary packages.... \n" "${NOTE}"
 
 for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${fonts[@]}" "${Extra[@]}"; do
-    install_package "$PKG1" 2>&1 | tee -a "$LOG"
-    if [ $? -ne 0 ]; then
-        echo -e "\e[1A\e[K${ERROR} - $PKG1 install had failed, please check the install.log"
-        exit 1
-    fi
+  install_package "$PKG1" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - $PKG1 install had failed, please check the install.log"
+    exit 1
+  fi
 done
 
 echo
 print_success "All necessary packages installed successfully."
 sleep 2
 
-#clear screen
+# Clear screen
 clear
 
-#themes and cursors
-printf "\n${NOTE} GTK THEMES ARE NEEDED FOR DARK-LIGHT TRANSITION! \n" 
+# Themes and cursors
+printf "\n${NOTE} GTK THEMES ARE NEEDED FOR DARK-LIGHT TRANSITION! \n"
 read -n1 -rep "${CAT} OPTIONAL - Would you like to install GTK Themes and Cursors? (y/n)" theme
 if [[ $theme =~ ^[Yy]$ ]]; then
-	while true; do
-    	read -rp "${CAT} Which GTK Theme and Cursors to install? Catppuccin or Tokyo Theme? Enter 'c' or 't': " choice
-    	case "$choice" in
-    	c|C)
-       		printf "${NOTE} Installing Catpuccin Theme packages...\n"
-       		for THEME1 in catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte catppuccin-cursors-mocha; do
-       		install_package "$THEME1" 2>&1 | tee -a "$LOG"
-       		if [ $? -ne 0 ]; then
-       		echo -e "\e[1A\e[K${ERROR} - $THEME1 install had failed, please check the install.log"
-       		exit 1
-       		fi
-       		done
-       		# Shiny-Dark-Icons-themes
-       		mkdir -p ~/.icons
-	        cd assets
-           	tar -xf Shiny-Dark-Icons.tar.gz -C ~/.icons
-	        tar -xf Shiny-Light-Icons.tar.gz -C ~/.icons
-	        cd ..
-	        sed -i '9,12s/#//' config/hypr/scripts/DarkLight.sh
-	        sed -i '9,12s/#//' config/hypr/scripts/DarkLight-swaybg.sh
-          	sed -i '31s/#//' config/hypr/configs/Settings.conf
-           	cp -f 'config/hypr/waybar/style/dark-styles/style-dark-cat.css' 'config/hypr/waybar/style/style-dark.css'
-           	break
-           	;;
-        t|T)
-           	printf "${NOTE} Installing Tokyo Theme packages...\n"
-           	wget https://github.com/ljmill/tokyo-night-icons/releases/download/v0.2.0/TokyoNight-SE.tar.bz2
-			mkdir -p ~/.icons								
-			tar -xvjf TokyoNight-SE.tar.bz2 -C ~/.icons
-			mkdir -p ~/.themes
-		   	cp -r -f assets/tokyo-themes/* ~/.themes/
-		    sed -i '15,18s/#//' config/hypr/scripts/DarkLight.sh
-		   	sed -i '15,18s/#//' config/hypr/scripts/DarkLight-swaybg.sh
-        	sed -i '32s/#//' config/hypr/configs/Settings.conf
-        	cp -f 'config/hypr/waybar/style/dark-styles/style-dark-tokyo.css' 'config/hypr/waybar/style/style-dark.css'
-        	break
-            ;;
-        *)
-          	printf "%s - Invalid choice. Please enter 'c' or 'm'\n" "${ERROR}"
-           	continue
-           	;;
-    	esac
-	done
+  while true; do
+    read -rp "${CAT} Which GTK Theme and Cursors to install? Catppuccin or Tokyo Theme? Enter 'c' or 't': " choice
+    case "$choice" in
+      c|C)
+        printf "${NOTE} Installing Catpuccin Theme packages...\n"
+        for THEME1 in catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte catppuccin-cursors-mocha; do
+          install_package "$THEME1" 2>&1 | tee -a "$LOG"
+          [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $THEME1 install had failed, please check the install.log"; exit 1; }
+        done
+        # Shiny-Dark-Icons-themes
+        mkdir -p ~/.icons
+        cd assets
+        tar -xf Shiny-Dark-Icons.tar.gz -C ~/.icons
+        tar -xf Shiny-Light-Icons.tar.gz -C ~/.icons
+        cd ..
+        sed -i '9,12s/#//' config/hypr/scripts/DarkLight.sh
+        sed -i '9,12s/#//' config/hypr/scripts/DarkLight-swaybg.sh
+        sed -i '31s/#//' config/hypr/configs/Settings.conf
+        cp -f 'config/hypr/waybar/style/dark-styles/style-dark-cat.css' 'config/hypr/waybar/style/style-dark.css'
+        break
+        ;;
+      t|T)
+        printf "${NOTE} Installing Tokyo Theme packages...\n"
+        wget https://github.com/ljmill/tokyo-night-icons/releases/download/v0.2.0/TokyoNight-SE.tar.bz2
+        mkdir -p ~/.icons
+        tar -xvjf TokyoNight-SE.tar.bz2 -C ~/.icons
+        mkdir -p ~/.themes
+        cp -r -f assets/tokyo-themes/* ~/.themes/
+        sed -i '15,18s/#//' config/hypr/scripts/DarkLight.sh
+        sed -i '15,18s/#//' config/hypr/scripts/DarkLight-swaybg.sh
+        sed -i '32s/#//' config/hypr/configs/Settings.conf
+        cp -f 'config/hypr/waybar/style/dark-styles/style-dark-tokyo.css' 'config/hypr/waybar/style/style-dark.css'
+        break
+        ;;
+      *)
+        printf "%s - Invalid choice. Please enter 'c' or 't'\n" "${ERROR}"
+        continue
+        ;;
+    esac
+  done
 else
   printf "${NOTE} No themes will be installed..\n"
 fi
 
-
-#clear screen
+# Clear screen
 clear
 
-# additional packages (File Manager)
-read -n1 -rep "${CAT} OPTIONAL - Would you like to install Thunar as file manager? (y/n)" inst3
+# Additional packages (File Manager)
+read -n1 -rep "${CAT} OPTIONAL - Would you like to install Thunar as a file manager? (y/n)" inst3
 echo
 
 if [[ $inst3 =~ ^[Yy]$ ]]; then
   for THUNAR in thunar thunar-volman tumbler thunar-archive-plugin; do
     install_package "$THUNAR" 2>&1 | tee -a "$LOG"
-        if [ $? -ne 0 ]; then
-        echo -e "\e[1A\e[K${ERROR} - $THUNAR install had failed, please check the install.log"
-        exit 1
-    fi
-    done
+    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $THUNAR install had failed, please check the install.log"; exit 1; }
+  done
 
-    # check for existing config folders and backup 
-    for DIR1 in Thunar xfce4; do 
-        DIRPATH=~/.config/$DIR1
-        if [ -d "$DIRPATH" ]; then 
-            echo -e "${NOTE}  Config for $DIR1 found, backing up."
-            mv $DIRPATH $DIRPATH-back-up 2>&1 | tee -a "$LOG"
-            echo -e "${NOTE}  Backed up $DIR1 to $DIRPATH-back-up."
-        fi
-    done
-    cp -r config/xfce4 ~/.config/ && { echo "Copy xfce4 completed!"; } || { echo "Error: Failed to copy xfce4 config files."; exit 1; } 2>&1 | tee -a "$LOG"
-    cp -r config/Thunar ~/.config/ && { echo "Copy Thunar completed!"; } || { echo "Error: Failed to copy Thunar config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  # Check for existing config folders and backup
+  for DIR1 in Thunar xfce4; do
+    DIRPATH=~/.config/$DIR1
+    if [ -d "$DIRPATH" ]; then
+      echo -e "${NOTE} Config for $DIR1 found, backing up."
+      mv $DIRPATH $DIRPATH-back-up 2>&1 | tee -a "$LOG"
+      echo -e "${NOTE} Backed up $DIR1 to $DIRPATH-back-up."
+    fi
+  done
+  cp -r config/xfce4 ~/.config/ && { echo "Copy xfce4 completed!"; } || { echo "Error: Failed to copy xfce4 config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/Thunar ~/.config/ && { echo "Copy Thunar completed!"; } || { echo "Error: Failed to copy Thunar config files."; exit 1; } 2>&1 | tee -a "$LOG"
 else
   printf "${NOTE} Thunar will not be installed.\n"
 fi
 
-#clear screen
+# Clear screen
 clear
 
-# BLUETOOTH
+# Bluetooth
 read -n1 -rep "${CAT} OPTIONAL - Would you like to install Bluetooth packages? (y/n)" inst4
 if [[ $inst4 =~ ^[Yy]$ ]]; then
   printf "${NOTE} Installing Bluetooth Packages...\n"
   for BLUE in bluez bluez-utils blueman; do
     install_package "$BLUE" 2>&1 | tee -a "$LOG"
-         if [ $? -ne 0 ]; then
-        echo -e "\e[1A\e[K${ERROR} - $BLUE install had failed, please check the install.log"
-        exit 1
-        fi
-    done
+    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $BLUE install had failed, please check the install.log"; exit 1; }
+  done
 
   printf " Activating Bluetooth Services...\n"
   sudo systemctl enable --now bluetooth.service 2>&1 | tee -a "$LOG"
 else
-  printf "${NOTE} No bluetooth packages installed..\n"
+  printf "${NOTE} No Bluetooth packages installed..\n"
 fi
 
-#clear screen
+# Clear screen
 clear
 
 # SDDM install
@@ -492,91 +481,65 @@ if [[ $install_sddm =~ ^[Yy]$ ]]; then
   printf "${NOTE} Installing SDDM-git........\n"
   for package in sddm-git; do
     install_package "$package" 2>&1 | tee -a "$LOG"
-    if [ $? -ne 0 ]; then
-      echo -e "\e[1A\e[K${ERROR} - $package install has failed, please check the install.log"
-      exit 1
-    fi
-   done 
+    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $package install has failed, please check the install.log"; exit 1; }
+  done 
 
-    # Check if other login managers installed and disabling its service before enabling sddm
-    if pacman -Qs lightdm > /dev/null ; then
-    echo "disabling lightdm..."
-    sudo systemctl disable lightdm.service 2>&1 | tee -a "$LOG"
+  # Check if other login managers installed and disabling its service before enabling sddm
+  for login_manager in lightdm gdm lxdm lxdm-gtk3; do
+    if pacman -Qs "$login_manager" > /dev/null; then
+      echo "disabling $login_manager..."
+      sudo systemctl disable "$login_manager.service" 2>&1 | tee -a "$LOG"
     fi
+  done
 
-    if pacman -Qs gdm > /dev/null ; then
-    echo "disabling gdm..."
-    sudo systemctl disable gdm.service 2>&1 | tee -a "$LOG"
-    fi
+  printf " Activating sddm service........\n"
+  sudo systemctl enable sddm
+
+  # Set up SDDM
+  echo -e "${NOTE} Setting up the login screen."
+  sddm_conf_dir=/etc/sddm.conf.d
+  [ ! -d "$sddm_conf_dir" ] && { printf "$CAT - $sddm_conf_dir not found, creating...\n"; sudo mkdir "$sddm_conf_dir" 2>&1 | tee -a "$LOG"; }
+
+  wayland_sessions_dir=/usr/share/wayland-sessions
+  [ ! -d "$wayland_sessions_dir" ] && { printf "$CAT - $wayland_sessions_dir not found, creating...\n"; sudo mkdir "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"; }
+  sudo cp assets/hyprland.desktop "$wayland_sessions_dir/" 2>&1 | tee -a "$LOG"
     
-    if pacman -Qs lxdm > /dev/null ; then
-    echo "disabling lxdm..."
-    sudo systemctl disable lxdm.service  2>&1 | tee -a "$LOG"
-    fi
-
-    if pacman -Qs lxdm-gtk3 > /dev/null ; then
-    echo "disabling lxdm..."
-    sudo systemctl disable lxdm.service  2>&1 | tee -a "$LOG"
-    fi
-
-    printf " Activating sddm service........\n"
-    sudo systemctl enable sddm
-
-    # Set up SDDM
-    echo -e "${NOTE} Setting up the login screen."
-    sddm_conf_dir=/etc/sddm.conf.d
-    if [ ! -d "$sddm_conf_dir" ]; then
-        printf "$CAT - $sddm_conf_dir not found, creating...\n"
-        sudo mkdir "$sddm_conf_dir" 2>&1 | tee -a "$LOG"
-    fi
-
-    wayland_sessions_dir=/usr/share/wayland-sessions
-    if [ ! -d "$wayland_sessions_dir" ]; then
-        printf "$CAT - $wayland_sessions_dir not found, creating...\n"
-        sudo mkdir "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"
-    fi
-    sudo cp assets/hyprland.desktop "$wayland_sessions_dir/" 2>&1 | tee -a "$LOG"
-    
-    # SDDM-CATPPUCIN theme
-    read -n1 -rep "${CAT} OPTIONAL - Would you like to install SDDM themes? (y/n)" install_sddm_catppuccin
-    if [[ $install_sddm_catppuccin =~ ^[Yy]$ ]]; then
-		while true; do
-    	read -rp "${CAT} Which SDDM Theme you want to install? Catpuccin or Tokyo Night 'c' or 't': " choice 
-    	case "$choice" in
-    	c|C)
-            printf "\n%s - Installing Catpuccin SDDM Theme\n" "${NOTE}"
-            for sddm_theme in sddm-catppuccin-git; do
-    	    install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
-            if [ $? -ne 0 ]; then
-     	    echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"
-     	    fi
-     	    done	
-    	    echo -e "[Theme]\nCurrent=catppuccin" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
-	    break
-            ;;
+  # SDDM-CATPPUCIN theme
+  read -n1 -rep "${CAT} OPTIONAL - Would you like to install SDDM themes? (y/n)" install_sddm_catppuccin
+  if [[ $install_sddm_catppuccin =~ ^[Yy]$ ]]; then
+    while true; do
+      read -rp "${CAT} Which SDDM Theme you want to install? Catpuccin or Tokyo Night 'c' or 't': " choice 
+      case "$choice" in
+        c|C)
+          printf "\n%s - Installing Catpuccin SDDM Theme\n" "${NOTE}"
+          for sddm_theme in sddm-catppuccin-git; do
+            install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
+            [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"; }
+          done
+          echo -e "[Theme]\nCurrent=catppuccin" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
+          break
+          ;;
         t|T)
-            printf "\n%s - Installing Tokyo SDDM Theme\n" "${NOTE}"
-            for sddm_theme in sddm-theme-tokyo-night; do
-       	    install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
-            if [ $? -ne 0 ]; then
-            echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"
-            fi
-            done	
-    	    echo -e "[Theme]\nCurrent=tokyo-night-sddm" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
-            break
-            ;;                		
+          printf "\n%s - Installing Tokyo SDDM Theme\n" "${NOTE}"
+          for sddm_theme in sddm-theme-tokyo-night; do
+            install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
+            [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"; }
+          done	
+          echo -e "[Theme]\nCurrent=tokyo-night-sddm" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
+          break
+          ;;                		
         *)
-            printf "%s - Invalid choice. Please enter 'c' or 't'\n" "${ERROR}"
-            continue
-            ;;
-        esac
-    	done
-    fi       
+          printf "%s - Invalid choice. Please enter 'c' or 't'\n" "${ERROR}"
+          continue
+          ;;
+      esac
+    done
+  fi
 else
   printf "${NOTE} SDDM will not be installed.\n"
 fi
  
-#clear screen
+# Clear screen
 clear
 
 
@@ -585,11 +548,11 @@ read -n1 -rep "${CAT} (OPTIONAL - ONLY for ROG Laptops) Would you like to instal
 if [[ $ROG =~ ^[Yy]$ ]]; then
     printf " Installing ASUS ROG packages...\n"
     for ASUS in asusctl supergfxctl rog-control-center; do
-        install_package  "$ASUS" 2>&1 | tee -a "$LOG"
-        if [ $? -ne 0 ]; then
-        echo -e "\e[1A\e[K${ERROR} - $ASUS install had failed, please check the install.log"
-        exit 1
-        fi
+	    install_package  "$ASUS" 2>&1 | tee -a "$LOG"
+      if [ $? -ne 0 ]; then
+      echo -e "\e[1A\e[K${ERROR} - $ASUS install had failed, please check the install.log"
+      exit 1
+      fi
     done
     printf " Activating ROG services...\n"
     sudo systemctl enable --now supergfxd 2>&1 | tee -a "$LOG"
@@ -609,10 +572,10 @@ if [[ $XDPH =~ ^[Yy]$ ]]; then
   printf "${NOTE} Installing XDPH...\n"
   for xdph in xdg-desktop-portal-hyprland; do
     install_package "$xdph" 2>&1 | tee -a "$LOG"
-        if [ $? -ne 0 ]; then
-        echo -e "\e[1A\e[K${ERROR} - $xdph install had failed, please check the install.log"
-        exit 1
-        fi
+	    if [ $? -ne 0 ]; then
+      echo -e "\e[1A\e[K${ERROR} - $xdph install had failed, please check the install.log"
+      exit 1
+      fi
     done
     
     printf "${NOTE} Checking for other other XDG-Desktop-Portal-Implementations....\n"
@@ -622,24 +585,24 @@ if [[ $XDPH =~ ^[Yy]$ ]]; then
     read -n1 -rep "${CAT} Would you like me to try to remove other XDG-Desktop-Portal-Implementations? (y/n)" XDPH1
     sleep 1
     if [[ $XDPH1 =~ ^[Yy]$ ]]; then
-        # Clean out other portals
+      # Clean out other portals
     printf "${NOTE} Clearing any other xdg-desktop-portal implementations...\n"
-        # Check if packages are installed and uninstall if present
-    if pacman -Qs xdg-desktop-portal-gnome > /dev/null ; then
-        echo "Removing xdg-desktop-portal-gnome..."
-        sudo pacman -R --noconfirm xdg-desktop-portal-gnome 2>&1 | tee -a "$LOG"
+      # Check if packages are installed and uninstall if present
+	  if pacman -Qs xdg-desktop-portal-gnome > /dev/null ; then
+      echo "Removing xdg-desktop-portal-gnome..."
+      sudo pacman -R --noconfirm xdg-desktop-portal-gnome 2>&1 | tee -a "$LOG"
     fi
     if pacman -Qs xdg-desktop-portal-gtk > /dev/null ; then
-        echo "Removing xdg-desktop-portal-gtk..."
-        sudo pacman -R --noconfirm xdg-desktop-portal-gtk 2>&1 | tee -a "$LOG"
+      echo "Removing xdg-desktop-portal-gtk..."
+      sudo pacman -R --noconfirm xdg-desktop-portal-gtk 2>&1 | tee -a "$LOG"
     fi
     if pacman -Qs xdg-desktop-portal-wlr > /dev/null ; then
-        echo "Removing xdg-desktop-portal-wlr..."
-        sudo pacman -R --noconfirm xdg-desktop-portal-wlr 2>&1 | tee -a "$LOG"
+      echo "Removing xdg-desktop-portal-wlr..."
+      sudo pacman -R --noconfirm xdg-desktop-portal-wlr 2>&1 | tee -a "$LOG"
     fi
     if pacman -Qs xdg-desktop-portal-lxqt > /dev/null ; then
-        echo "Removing xdg-desktop-portal-lxqt..."
-        sudo pacman -R --noconfirm xdg-desktop-portal-lxqt 2>&1 | tee -a "$LOG"
+      echo "Removing xdg-desktop-portal-lxqt..."
+      sudo pacman -R --noconfirm xdg-desktop-portal-lxqt 2>&1 | tee -a "$LOG"
     fi    
     print_success " All other XDG-DESKTOP-PORTAL implementations cleared."
     fi
@@ -653,20 +616,20 @@ clear
 ### Disable wifi powersave mode ###
 read -n1 -rp "${CAT} Would you like to disable wifi powersave? (y/n) " WIFI
 if [[ $WIFI =~ ^[Yy]$ ]]; then
-    LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
-    if [ -f "$LOC" ]; then
-        printf "${OK} seems wifi powersave already disabled.\n"
-    else
-        printf "\n"
-        printf "${NOTE} The following has been added to $LOC.\n"
-        printf "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC
-        printf "\n"
-        printf "${NOTE} Restarting NetworkManager service...\n"
-        sudo systemctl restart NetworkManager 2>&1 | tee -a "$LOG"
-        sleep 2        
-    fi    
+	LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
+  if [ -f "$LOC" ]; then
+  printf "${OK} seems wifi powersave already disabled.\n"
+  else
+  printf "\n"
+  printf "${NOTE} The following has been added to $LOC.\n"
+  printf "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC
+  printf "\n"
+  printf "${NOTE} Restarting NetworkManager service...\n"
+  sudo systemctl restart NetworkManager 2>&1 | tee -a "$LOG"
+  sleep 2        
+  fi    
 else
-    printf "${NOTE} WIFI Powersave is not being disabled.\n"
+  printf "${NOTE} WIFI Powersave is not being disabled.\n"
 fi
 
 #clear screen
@@ -763,48 +726,44 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 read -n1 -rep "${CAT} Would you like to copy config and wallpaper files? (y,n)" CFG
 if [[ $CFG =~ ^[Yy]$ ]]; then
+  # Check for existing config folders and backup
+  for DIR in cava foot hypr swappy swaylock waybar wlogout wofi; do 
+    DIRPATH=~/.config/$DIR
+    if [ -d "$DIRPATH" ]; then 
+      echo -e "${NOTE} - Config for $DIR found, attempting to back up."
+      mv $DIRPATH $DIRPATH-back-up 2>&1 | tee -a "$LOG"
+      echo -e "${NOTE} - Backed up $DIR to $DIRPATH-back-up."
+    fi
+  done
 
-# check for existing config folders and backup 
-    for DIR in cava foot hypr swappy swaylock waybar wlogout wofi 
-    do 
-        DIRPATH=~/.config/$DIR
-        if [ -d "$DIRPATH" ]; then 
-            echo -e "${NOTE} - Config for $DIR found, attempting to back up."
-            mv $DIRPATH $DIRPATH-back-up 2>&1 | tee -a "$LOG"
-            echo -e "${NOTE} - Backed up $DIR to $DIRPATH-back-up."
-        fi
+  for DIRw in wallpapers; do 
+    DIRPATH=~/Pictures/$DIRw
+    if [ -d "$DIRPATH" ]; then 
+      echo -e "${NOTE} - wallpapers in $DIRw found, attempting to back up."
+      mv $DIRPATH $DIRPATH-back-up 2>&1 | tee -a "$LOG"
+      echo -e "${NOTE} - Backed up $DIRw to $DIRPATH-back-up."
+    fi
+  done
 
-    done
+  # Copying config files
+  printf " Copying config files...\n"
+  mkdir -p ~/.config
+  cp -r config/hypr ~/.config/ || { echo "Error: Failed to copy hypr config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/foot ~/.config/ || { echo "Error: Failed to copy foot config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/wlogout ~/.config/ || { echo "Error: Failed to copy wlogout config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/btop ~/.config/ || { echo "Error: Failed to copy btop config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/cava ~/.config/ || { echo "Error: Failed to copy cava config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/swappy ~/.config/ || { echo "Error: Failed to copy swappy config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  mkdir -p ~/Pictures/wallpapers
+  cp -r wallpapers ~/Pictures/ && { echo "Copy completed!"; } || { echo "Error: Failed to copy wallpapers."; exit 1; } 2>&1 | tee -a "$LOG"
 
-    for DIRw in wallpapers
-    do 
-        DIRPATH=~/Pictures/$DIRw
-        if [ -d "$DIRPATH" ]; then 
-            echo -e "${NOTE} - wallpapers in $DIRw found, attempting to back up."
-            mv $DIRPATH $DIRPATH-back-up 2>&1 | tee -a "$LOG"
-            echo -e "${NOTE} - Backed up $DIRw to $DIRPATH-back-up."
-        fi
-
-    done
-
-    printf " Copying config files...\n"
-    mkdir -p ~/.config
-    cp -r config/hypr ~/.config/ || { echo "Error: Failed to copy hypr config files."; exit 1; } 2>&1 | tee -a "$LOG"
-    cp -r config/foot ~/.config/ || { echo "Error: Failed to copy foot config files."; exit 1; } 2>&1 | tee -a "$LOG"
-    cp -r config/wlogout ~/.config/ || { echo "Error: Failed to copy wlogout config files."; exit 1; } 2>&1 | tee -a "$LOG"
-    cp -r config/btop ~/.config/ || { echo "Error: Failed to copy btop config files."; exit 1; } 2>&1 | tee -a "$LOG"
-    cp -r config/cava ~/.config/ || { echo "Error: Failed to copy cava config files."; exit 1; } 2>&1 | tee -a "$LOG"
-    cp -r config/swappy ~/.config/ || { echo "Error: Failed to copy swappy config files."; exit 1; } 2>&1 | tee -a "$LOG"
-    mkdir -p ~/Pictures/wallpapers
-    cp -r wallpapers ~/Pictures/ && { echo "Copy completed!"; } || { echo "Error: Failed to copy wallpapers."; exit 1; } 2>&1 | tee -a "$LOG"
-
-    # Set some files as executable 
-    chmod +x ~/.config/hypr/scripts/* 2>&1 | tee -a "$LOG"
+  # Set some files as executable
+  chmod +x ~/.config/hypr/scripts/* 2>&1 | tee -a "$LOG"
 else
-   print_error " No Config files and wallpaper files copied"
+  print_error " No Config files and wallpaper files copied"
 fi
 
-#clear screen
+# Clear screen
 clear
 
 ### Script is done ###
@@ -822,16 +781,16 @@ printf "\n"
 read -n1 -rep "${CAT} Would you like to start Hyprland now? (y,n)" HYP
 
 if [[ $HYP =~ ^[Yy]$ ]]; then
-    if command -v sddm >/dev/null; then
-        sudo systemctl start sddm 2>&1 | tee -a "$LOG"
-    fi
-    
-    if command -v Hyprland >/dev/null; then
-        exec Hyprland
-    else
-        print_error "Hyprland not found. Please make sure Hyprland is installed by checking install.log.\n"
-        exit 1
-    fi
+  if command -v sddm >/dev/null; then
+   sudo systemctl start sddm 2>&1 | tee -a "$LOG"
+  fi
+
+  if command -v Hyprland >/dev/null; then
+    exec Hyprland
+  else
+    print_error "Hyprland not found. Please make sure Hyprland is installed by checking install.log.\n"
+    exit 1
+  fi
 else
     exit
 fi
