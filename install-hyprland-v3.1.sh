@@ -756,13 +756,13 @@ if [[ $CFG =~ ^[Yy]$ ]]; then
   cp -r config/swappy ~/.config/ || { echo "Error: Failed to copy swappy config files."; exit 1; } 2>&1 | tee -a "$LOG"
   mkdir -p ~/Pictures/wallpapers
   cp -r wallpapers ~/Pictures/ && { echo "Copy completed!"; } || { echo "Error: Failed to copy wallpapers."; exit 1; } 2>&1 | tee -a "$LOG"
-
-  # Set some files as executable
-  chmod +x ~/.config/hypr/scripts/* 2>&1 | tee -a "$LOG"
-
+  
   # symlinks for waybar
   ln -sf "$HOME/.config/hypr/waybar/configs/config-default" "$HOME/.config/hypr/waybar/config" && \
   ln -sf "$HOME/.config/hypr/waybar/configs/style-dark.css" "$HOME/.config/hypr/waybar/style.css" && \
+  
+  # Set some files as executable
+  chmod +x ~/.config/hypr/scripts/* 2>&1 | tee -a "$LOG"
 else
   print_error " No Config files and wallpaper files copied"
 fi
