@@ -9,10 +9,6 @@
 - c. using dunst instead of mako
 - d. Added Tokyo SDDM Theme 
 
-### ✨ Roadmap:
-- [ ] Use kitty in favor of foot
-- [ ] Install zsh and oh-my-zsh without necessary steps below
-
 ### ✨ to run
 - clone this repo by using git. Change directory, make executable and run the script
 - git clone https://github.com/JaKooLit/Hyprland-v3.1.git 
@@ -31,4 +27,6 @@ source .zshrc
 - by default gnzh theme is installed. You can find more themes from this [`OH-MY-ZSH-THEMES`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
 - to change the theme, edit ~/.zshrc ZSH_THEME="desired theme"
 
-
+### ✨ Roadmap:
+- [ ] Use kitty in favor of foot
+- [ ] Install zsh and oh-my-zsh without necessary steps above
