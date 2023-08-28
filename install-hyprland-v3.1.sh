@@ -371,47 +371,47 @@ printf "\n${NOTE} GTK THEMES ARE NEEDED FOR DARK-LIGHT TRANSITION! \n"
 read -n1 -rep "${CAT} OPTIONAL - Would you like to install GTK Themes and Cursors? (y/n)" theme
 if [[ $theme =~ ^[Yy]$ ]]; then
 	while true; do
-    		read -rp "${CAT} Which GTK Theme and Cursors to install? Catppuccin or Tokyo Theme? Enter 'c' or 't': " choice
-    		case "$choice" in
-        		c|C)
-            		printf "${NOTE} Installing Catpuccin Theme packages...\n"
-            		for THEME1 in catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte catppuccin-cursors-mocha; do
-                		install_package "$THEME1" 2>&1 | tee -a "$LOG"
-                		if [ $? -ne 0 ]; then
-                    		echo -e "\e[1A\e[K${ERROR} - $THEME1 install had failed, please check the install.log"
-                    		exit 1
-                		fi
-            		done
-            		# Shiny-Dark-Icons-themes
-            		mkdir -p ~/.icons
-			        cd assets
-            	tar -xf Shiny-Dark-Icons.tar.gz -C ~/.icons
-			        tar -xf Shiny-Light-Icons.tar.gz -C ~/.icons
-			        cd ..
-			        sed -i '9,12s/#//' config/hypr/scripts/DarkLight.sh
-			        sed -i '9,12s/#//' config/hypr/scripts/DarkLight-swaybg.sh
-            	sed -i '31s/#//' config/hypr/configs/Settings.conf
-            	cp -f 'config/hypr/waybar/style/dark-styles/style-dark-cat.css' 'config/hypr/waybar/style/style-dark.css'
-            	break
-            	;;
-        		t|T)
-            	printf "${NOTE} Installing Tokyo Theme packages...\n"
-            	wget https://github.com/ljmill/tokyo-night-icons/releases/download/v0.2.0/TokyoNight-SE.tar.bz2
-							mkdir -p ~/.icons								
-							tar -xvjf TokyoNight-SE.tar.bz2 -C ~/.icons
-							mkdir -p ~/.themes
-		        	cp -r -f assets/tokyo-themes/* ~/.themes/
-							sed -i '15,18s/#//' config/hypr/scripts/DarkLight.sh
-		        	sed -i '15,18s/#//' config/hypr/scripts/DarkLight-swaybg.sh
-           		sed -i '32s/#//' config/hypr/configs/Settings.conf
-           		cp -f 'config/hypr/waybar/style/dark-styles/style-dark-tokyo.css' 'config/hypr/waybar/style/style-dark.css'
-           		break
-         		;;
-        		*)
-            	printf "%s - Invalid choice. Please enter 'c' or 'm'\n" "${ERROR}"
-            	continue
-            	;;
-    		esac
+    	read -rp "${CAT} Which GTK Theme and Cursors to install? Catppuccin or Tokyo Theme? Enter 'c' or 't': " choice
+    	case "$choice" in
+    	c|C)
+       		printf "${NOTE} Installing Catpuccin Theme packages...\n"
+       		for THEME1 in catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte catppuccin-cursors-mocha; do
+       		install_package "$THEME1" 2>&1 | tee -a "$LOG"
+       		if [ $? -ne 0 ]; then
+       		echo -e "\e[1A\e[K${ERROR} - $THEME1 install had failed, please check the install.log"
+       		exit 1
+       		fi
+       		done
+       		# Shiny-Dark-Icons-themes
+       		mkdir -p ~/.icons
+	        cd assets
+           	tar -xf Shiny-Dark-Icons.tar.gz -C ~/.icons
+	        tar -xf Shiny-Light-Icons.tar.gz -C ~/.icons
+	        cd ..
+	        sed -i '9,12s/#//' config/hypr/scripts/DarkLight.sh
+	        sed -i '9,12s/#//' config/hypr/scripts/DarkLight-swaybg.sh
+          	sed -i '31s/#//' config/hypr/configs/Settings.conf
+           	cp -f 'config/hypr/waybar/style/dark-styles/style-dark-cat.css' 'config/hypr/waybar/style/style-dark.css'
+           	break
+           	;;
+        t|T)
+           	printf "${NOTE} Installing Tokyo Theme packages...\n"
+           	wget https://github.com/ljmill/tokyo-night-icons/releases/download/v0.2.0/TokyoNight-SE.tar.bz2
+			mkdir -p ~/.icons								
+			tar -xvjf TokyoNight-SE.tar.bz2 -C ~/.icons
+			mkdir -p ~/.themes
+		   	cp -r -f assets/tokyo-themes/* ~/.themes/
+		    sed -i '15,18s/#//' config/hypr/scripts/DarkLight.sh
+		   	sed -i '15,18s/#//' config/hypr/scripts/DarkLight-swaybg.sh
+        	sed -i '32s/#//' config/hypr/configs/Settings.conf
+        	cp -f 'config/hypr/waybar/style/dark-styles/style-dark-tokyo.css' 'config/hypr/waybar/style/style-dark.css'
+        	break
+            ;;
+        *)
+          	printf "%s - Invalid choice. Please enter 'c' or 'm'\n" "${ERROR}"
+           	continue
+           	;;
+    	esac
 	done
 else
   printf "${NOTE} No themes will be installed..\n"
@@ -539,40 +539,39 @@ if [[ $install_sddm =~ ^[Yy]$ ]]; then
     
     # SDDM-CATPPUCIN theme
     read -n1 -rep "${CAT} OPTIONAL - Would you like to install SDDM themes? (y/n)" install_sddm_catppuccin
-    		echo
-				if [[ $install_sddm_catppuccin =~ ^[Yy]$ ]]; then
-					while true; do
-        		read -rp "${CAT} Which SDDM Theme you want to install? Catpuccin or Tokyo Night 'c' or 't': " choice 
-        		case "$choice" in
-            		c|C)
-            		    printf "\n%s - Installing Catpuccin SDDM Theme\n" "${NOTE}"
-           			    for sddm_theme in sddm-catppuccin-git; do
-       							install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
-          					if [ $? -ne 0 ]; then
-          						echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"
-          					fi
-          					done	
-    								echo -e "[Theme]\nCurrent=catppuccin" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
-										break
-                		;;
-            		t|T)
-            		    printf "\n%s - Installing Tokyo SDDM Theme\n" "${NOTE}"
-           			    for sddm_theme in sddm-theme-tokyo-night; do
-       							install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
-          					if [ $? -ne 0 ]; then
-          						echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"
-          					fi
-          					done	
-    								echo -e "[Theme]\nCurrent=tokyo-night-sddm" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
-										break
-                		;;                		
-            		*)
-                		printf "%s - Invalid choice. Please enter 'c' or 't'\n" "${ERROR}"
-                		continue
-                		;;
-        		esac
-    			done
-				fi       
+    if [[ $install_sddm_catppuccin =~ ^[Yy]$ ]]; then
+		while true; do
+    	read -rp "${CAT} Which SDDM Theme you want to install? Catpuccin or Tokyo Night 'c' or 't': " choice 
+    	case "$choice" in
+    	c|C)
+            printf "\n%s - Installing Catpuccin SDDM Theme\n" "${NOTE}"
+            for sddm_theme in sddm-catppuccin-git; do
+    	    install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
+            if [ $? -ne 0 ]; then
+     	    echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"
+     	    fi
+     	    done	
+    	    echo -e "[Theme]\nCurrent=catppuccin" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
+	    break
+            ;;
+        t|T)
+            printf "\n%s - Installing Tokyo SDDM Theme\n" "${NOTE}"
+            for sddm_theme in sddm-theme-tokyo-night; do
+       	    install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
+            if [ $? -ne 0 ]; then
+            echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"
+            fi
+            done	
+    	    echo -e "[Theme]\nCurrent=tokyo-night-sddm" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG"                		
+            break
+            ;;                		
+        *)
+            printf "%s - Invalid choice. Please enter 'c' or 't'\n" "${ERROR}"
+            continue
+            ;;
+        esac
+    	done
+    fi       
 else
   printf "${NOTE} SDDM will not be installed.\n"
 fi
