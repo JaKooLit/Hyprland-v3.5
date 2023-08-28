@@ -759,6 +759,10 @@ if [[ $CFG =~ ^[Yy]$ ]]; then
 
   # Set some files as executable
   chmod +x ~/.config/hypr/scripts/* 2>&1 | tee -a "$LOG"
+
+  # symlinks for waybar
+  ln -sf "$HOME/.config/hypr/waybar/configs/config-default" "$HOME/.config/hypr/waybar/config" && \
+  ln -sf "$HOME/.config/hypr/waybar/configs/style-dark.css" "$HOME/.config/hypr/waybar/style.css" && \
 else
   print_error " No Config files and wallpaper files copied"
 fi
