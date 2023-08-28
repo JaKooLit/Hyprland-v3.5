@@ -12,9 +12,8 @@
 
 ### ✨ Roadmap:
 - [ ] Use kitty in favor of foot
-- [ ] Add as optional oh my zsh (zsh) as default shell
 
-### to run
+### ✨ to run
 - clone this repo by using git. Change directory, make executable and run the script
 - git clone https://github.com/JaKooLit/Hyprland-v3.1.git 
 - cd Hyprland-v3.1 
