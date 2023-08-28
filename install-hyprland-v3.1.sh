@@ -305,7 +305,7 @@ else
   printf "\n"
 
   # Preparing exec.conf to enable env = WLR_NO_HARDWARE_CURSORS,1 so it will be ready once config files copied
-  sed -i '14s/#//' config/hypr/configs/ENVariables.conf
+  sed -i '21s/#//' config/hypr/configs/ENVariables.conf
 
   # Additional Nvidia steps
   NVEA="/etc/modprobe.d/nvidia.conf"
@@ -748,7 +748,7 @@ if [[ $CFG =~ ^[Yy]$ ]]; then
   # Copying config files
   printf " Copying config files...\n"
   mkdir -p ~/.config
-  cp -r config/hypr ~/.config/ || { echo "Error: Failed to copy hypr config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/hypr ~/.config/ && { echo "Copy completed!"; } || { echo "Error: Failed to copy hypr config files."; exit 1; } 2>&1 | tee -a "$LOG"
   cp -r config/foot ~/.config/ || { echo "Error: Failed to copy foot config files."; exit 1; } 2>&1 | tee -a "$LOG"
   cp -r config/wlogout ~/.config/ || { echo "Error: Failed to copy wlogout config files."; exit 1; } 2>&1 | tee -a "$LOG"
   cp -r config/btop ~/.config/ || { echo "Error: Failed to copy btop config files."; exit 1; } 2>&1 | tee -a "$LOG"
