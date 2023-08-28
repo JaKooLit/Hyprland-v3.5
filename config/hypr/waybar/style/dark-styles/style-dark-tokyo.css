@@ -53,7 +53,7 @@ tooltip {
 }
 
 #workspaces button.active {
-  color: #dedede;
+  color: #7aa2f7;
   border-radius: 15px 15px 15px 15px;
 }
 
@@ -86,6 +86,7 @@ tooltip {
 #backlight,
 #window,
 #idle_inhibitor,
+#keyboard-state,
 #mpd,
 #bluetooth,
 #taskbar,
@@ -110,7 +111,7 @@ tooltip {
 #custom-weather.showyIcyDay,
 #custom-weather.snowyIcyNight,
 #custom-weather.default #idle_inhibitor {
-  color: #fff;
+  color: #7aa2f7;
   padding: 0px 10px;
   border-radius: 10px;
 }
