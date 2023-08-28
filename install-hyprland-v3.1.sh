@@ -676,15 +676,15 @@ read -p "Detected keyboard layout or keymap: $layout. Is this correct? [y/n] " c
 
 if [ "$confirm" = "y" ]; then
   # If the detected layout is correct, update the 'kb_layout=' line in the file
-  awk -v layout="$layout" '/kb_layout/ {$0 = "  kb_layout=" layout} 1' config/hypr/hyprland.conf > temp.conf
-  mv temp.conf config/hypr/hyprland.conf
+  awk -v layout="$layout" '/kb_layout/ {$0 = "  kb_layout=" layout} 1' config/hypr/configs/Settings.conf > temp.conf
+  mv temp.conf config/hypr/configs/Settings.conf
 else
   # If the detected layout is not correct, prompt the user to enter the correct layout
   printf "${WARN} Ensure to type in the proper keyboard layout, e.g., gb, de, pl, etc.\n"
   read -p "Please enter the correct keyboard layout: " new_layout
   # Update the 'kb_layout=' line with the correct layout in the file
-  awk -v new_layout="$new_layout" '/kb_layout/ {$0 = "  kb_layout=" new_layout} 1' config/hypr/hyprland.conf > temp.conf
-  mv temp.conf config/hypr/hyprland.conf
+  awk -v new_layout="$new_layout" '/kb_layout/ {$0 = "  kb_layout=" new_layout} 1' config/hypr/configs/Settings.conf > temp.conf
+  mv temp.conf config/hypr/configs/Settings.conf
 fi
 printf "\n"
 printf "\n"

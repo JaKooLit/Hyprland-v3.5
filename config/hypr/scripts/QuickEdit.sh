@@ -27,6 +27,7 @@ menu(){
   printf "3. view Execs\n"
   printf "4. view Key-Binds\n"
   printf "5. view Monitors\n"
+  printf "6. view Hyprland-Settings\n"
 }
 
 main() {
@@ -46,6 +47,9 @@ main() {
             ;;
         5)
             foot -e nano "$hyprDir/Monitors.conf"
+            ;;
+        6)
+            foot -e nano "$hyprDir/Settings.conf"
             ;;
         *)
             ;;
