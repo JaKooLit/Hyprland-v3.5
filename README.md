@@ -33,4 +33,6 @@ source .zshrc
 ### ✨ Roadmap:
 - [ ] Use kitty in favor of foot
 - [ ] Install zsh and oh-my-zsh without necessary steps above
+- [ ] gbar in favor of waybar
+- [ ] ags in favor of waybar
 
