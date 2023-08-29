@@ -442,49 +442,59 @@ if [[ $install_sddm =~ ^[Yy]$ ]]; then
     fi
   fi
 
-  # Install SDDM and Catppuccin theme
   printf "${NOTE} Installing SDDM-git........\n"
   for package in sddm-git; do
     install_package "$package" 2>&1 | tee -a "$LOG"
-    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $package install has failed, please check the install.log"; exit 1; }
+    if [ $? -ne 0 ]; then
+      echo -e "\e[1A\e[K${ERROR} - $package install has failed, please check the install.log"
+      exit 1
+    fi
   done 
 
-  # Check if other login managers installed and disabling its service before enabling sddm
+  # Check if other login managers are installed and disable their services before enabling sddm
   for login_manager in lightdm gdm lxdm lxdm-gtk3; do
     if pacman -Qs "$login_manager" > /dev/null; then
-      echo "disabling $login_manager..."
+      echo "Disabling $login_manager..."
       sudo systemctl disable "$login_manager.service" 2>&1 | tee -a "$LOG"
     fi
   done
 
-  printf " Activating sddm service........\n"
+  printf "Activating sddm service........\n"
   sudo systemctl enable sddm
 
   # Set up SDDM
   echo -e "${NOTE} Setting up the login screen."
   sddm_conf_dir=/etc/sddm.conf.d
-  [ ! -d "$sddm_conf_dir" ] && { printf "$CAT - $sddm_conf_dir not found, creating...\n"; sudo mkdir "$sddm_conf_dir" 2>&1 | tee -a "$LOG"; }
+  if [ ! -d "$sddm_conf_dir" ]; then
+    printf "${CAT} - $sddm_conf_dir not found, creating...\n"
+    sudo mkdir -p "$sddm_conf_dir" 2>&1 | tee -a "$LOG"
+  fi
 
   wayland_sessions_dir=/usr/share/wayland-sessions
-  [ ! -d "$wayland_sessions_dir" ] && { printf "$CAT - $wayland_sessions_dir not found, creating...\n"; sudo mkdir "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"; }
+  if [ ! -d "$wayland_sessions_dir" ]; then
+    printf "${CAT} - $wayland_sessions_dir not found, creating...\n"
+    sudo mkdir -p "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"
+  fi
   sudo cp assets/hyprland.desktop "$wayland_sessions_dir/" 2>&1 | tee -a "$LOG"
     
-  # SDDM-CATPPUCIN theme
+  # SDDM-TOKYO-NIGHT theme
   read -n1 -rep "${CAT} OPTIONAL - Would you like to install Tokyo SDDM themes? (y/n)" install_sddm_theme
   if [[ $install_sddm_theme =~ ^[Yy]$ ]]; then
-    printf "\n%s - Installing Tokyo SDDM Theme\n" "${NOTE}"
-          for sddm_theme in sddm-theme-tokyo-night; do
-            install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
-            [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"; }
-          done	
-          echo -e "[Theme]\nCurrent=tokyo-night-sddm" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG" 
+    printf "\n${NOTE} - Installing Tokyo SDDM Theme\n"
+    for sddm_theme in sddm-theme-tokyo-night; do
+      install_package "$sddm_theme" 2>&1 | tee -a "$LOG"
+      if [ $? -ne 0 ]; then
+        echo -e "\e[1A\e[K${ERROR} - $sddm_theme install has failed, please check the install.log"
+      fi
+    done	
+    echo -e "[Theme]\nCurrent=tokyo-night-sddm" | sudo tee -a "$sddm_conf_dir/10-theme.conf" 2>&1 | tee -a "$LOG" 
   else
-  printf "${NOTE} SDDM will not be installed.\n"
+    printf "${NOTE} SDDM will not be installed.\n"
   fi
+fi
  
 # Clear screen
-clear
-
+ clear
 
 ### Install software for Asus ROG laptops ###
 read -n1 -rep "${CAT} (OPTIONAL - ONLY for ROG Laptops) Would you like to install Asus ROG software support? (y/n)" ROG
