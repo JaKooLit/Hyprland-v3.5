@@ -18,15 +18,13 @@
 	"cpu", 
 	"temperature", 
 	"memory",
-	],
 	//"disk",
-	//"custom/weather",
-	//],
+	"custom/weather",
+	],
   
 "modules-center": [
 	"custom/menu", 
-	"clock",
-	"custom/light_dark",	
+	"clock",	
 	"custom/lock",	
 	], 
 
@@ -39,7 +37,6 @@
 	"pulseaudio",
 		//"wireplumber", 
 	"pulseaudio#microphone",
-	//"custom/light_dark", 
 	"keyboard-state",
 	"custom/power",
 	],

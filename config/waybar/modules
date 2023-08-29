@@ -320,12 +320,6 @@
   "tooltip": false,
   "on-click": "~/.config/hypr/scripts/Help.sh",
 },
-
-"custom/light_dark": {
-  "format": "",
-  "on-click": "~/.config/hypr/scripts/DarkLight.sh",
-  "tooltip": false,
-},
   
 "custom/lock": {
   "format": "",
