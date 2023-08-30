@@ -23,9 +23,9 @@ chmod +x install-hyprland-v3.1.sh
 ### ✨ for ZSH and OH-MY-ZSH installation
 > do this once installed and script completed; do the following to change the default shell zsh
 ```bash
-chsh -s /bin/zsh
+chsh -s $(which zsh)
 zsh
-source .zshrc
+source ~/.zshrc
 ```
 - reboot or logout
 - by default gnzh theme is installed. You can find more themes from this [`OH-MY-ZSH-THEMES`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
