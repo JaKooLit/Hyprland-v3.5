@@ -6,11 +6,11 @@
 
 ### ✨ This is only a single theme, single waybar. No Dark or Light modes.
 
-### ✨ What's new
+### ✨ What's new compared to v3
 - a. Can modify the packages easily on the install-script
 - b. Dropped the Mc Mojave theme (apple like) in favor with Tokyo-night-theme
 - c. using dunst instead of mako
-- d. Added Tokyo SDDM Theme 
+- d. Added Tokyo SDDM Theme (Optional)
 
 ### ✨ to run
 > clone this repo by using git. Change directory, make executable and run the script
