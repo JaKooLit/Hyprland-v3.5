@@ -14,7 +14,6 @@
 "margin-right": 8,
 
 "modules-left": [
-	//"wlr/workspaces",
 	"hyprland/workspaces", 
 	"cpu", 
 	"temperature", 
@@ -36,7 +35,6 @@
 	"battery", 
 	"backlight",
 	"pulseaudio",
-		//"wireplumber", 
 	"pulseaudio#microphone",
 	"keyboard-state",
 	"custom/power",
