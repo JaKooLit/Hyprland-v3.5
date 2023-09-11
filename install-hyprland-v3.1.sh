@@ -373,7 +373,8 @@ if [[ $theme =~ ^[Yy]$ ]]; then
     mkdir -p ~/.icons
     tar -xvjf TokyoNight-SE.tar.bz2 -C ~/.icons
     mkdir -p ~/.themes
-    cp -r -f assets/tokyo-themes/* ~/.themes/ 
+    cp -r -f assets/tokyo-themes/* ~/.themes/
+    sed -i '2,3s/#//' config/hypr/configs/Settings.conf
 else
   printf "${NOTE} No themes will be installed..\n"
 fi
