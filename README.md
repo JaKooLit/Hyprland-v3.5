@@ -8,12 +8,14 @@
 
 ### ✨ What's new compared to my V3
 
-- 1. Can modify the packages easily on the install-hyprland-script
-- 2. Dropped the Mc Mojave theme (apple like) in favor with Tokyo-night-theme
-- 3. using dunst instead of mako
-- 4. Added Tokyo SDDM Theme 
-- 5. Use a wofi-power menu instead of wlogout
-- 6. Added the following: 
+- As stated above, This is only a single theme, single style waybar. No Dark or Light modes.
+
+-  Can modify the packages easily on the install-hyprland-script
+-  Dropped the Mc Mojave theme (apple like) in favor with Tokyo-night-theme
+-  using dunst instead of mako
+-  Added Tokyo SDDM Theme 
+-  Use a wofi-power menu instead of wlogout
+-  Added the following: 
     - a. mission center (windows like task manager) - right click on cpu waybar module
     - b. nvtop - right click on temperature waybar module
 
