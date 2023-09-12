@@ -369,7 +369,7 @@ printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if 
         done
         # Moving to config folder for copy
         cp -r assets/Status-bars-configs/gBar config/bar/
-        sed -i '24s/#//' config/hypr/configs/Exec.conf
+        sed -i '24s/#//' config/hypr/configs/Execs.conf
         break
         ;;
       w|W)
@@ -380,7 +380,7 @@ printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if 
         done
         # Moving to config folder for copy
         cp -r assets/Status-bars-configs/waybar config/bar/
-        sed -i '21,23s/#//' config/hypr/configs/Exec.conf
+        sed -i '21,23s/#//' config/hypr/configs/Execs.conf
         break
         ;;
       *)
