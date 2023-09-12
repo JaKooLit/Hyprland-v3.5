@@ -86,4 +86,4 @@
 
 
 
-TO CLOSE THIS DOCUMENT - Super q or Super Shift q or CTRL q
+TO CLOSE THIS DOCUMENT - press esc and then type :q!
