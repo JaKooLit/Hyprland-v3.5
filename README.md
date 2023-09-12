@@ -49,4 +49,5 @@ source ~/.zshrc
 - [ ] ags in favor of waybar
 - [X] ~~Use kitty in favor of foot~~ - Dropped the idea of kitty. Kitty using twice memory compared to foot.
 
-
+### ✨ Credits
+gBar - [`Link`](https://github.com/scorpion-26/gBar)
