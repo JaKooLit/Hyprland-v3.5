@@ -389,9 +389,6 @@ printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if 
         ;;
     esac
   done
-else
-  printf "${NOTE} No themes will be installed..\n"
-fi
 
 echo
 print_success "All necessary packages installed successfully."
