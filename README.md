@@ -6,15 +6,16 @@
 
 ### ✨ This is only a single theme, single style waybar. No Dark or Light modes.
 
-### ✨ What's new compared to v3
-- a. Can modify the packages easily on the install-script
-- b. Tokyo-night GTK Theme and TokyoNight-SE icon theme (optional)
-- c. using dunst instead of mako
-- d. Added Tokyo SDDM Theme (Optional)
-- e. Use a wofi-power menu instead of wlogout
-- f. Added the following: 
-    - 1. mission center (windows like task manager) - right click on cpu waybar module
-    - 2. nvtop - right click on temperature waybar module
+### ✨ What's new compared to my V3
+
+- 1. Can modify the packages easily on the install-hyprland-script
+- 2. Dropped the Mc Mojave theme (apple like) in favor with Tokyo-night-theme
+- 3. using dunst instead of mako
+- 4. Added Tokyo SDDM Theme 
+- 5. Use a wofi-power menu instead of wlogout
+- 6. Added the following: 
+    - a. mission center (windows like task manager) - right click on cpu waybar module
+    - b. nvtop - right click on temperature waybar module
 
 ### ✨ to run
 > clone this repo by using git. Change directory, make executable and run the script
