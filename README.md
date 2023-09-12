@@ -18,6 +18,7 @@
 -  Added the following: 
     - a. mission center (windows like task manager) - right click on cpu waybar module
     - b. nvtop - right click on temperature waybar module
+- gBar initial support
 
 ### ✨ to run
 > clone this repo by using git. Change directory, make executable and run the script
@@ -44,7 +45,7 @@ source ~/.zshrc
 
 ### ✨ Roadmap:
 - [ ] Install zsh and oh-my-zsh without necessary steps above
-- [ ] gbar in favor of waybar
+- [X] ~~gbar in favor of waybar~~ - however, gBar still fairly new. I suggest waybar to install instead
 - [ ] ags in favor of waybar
 - [X] ~~Use kitty in favor of foot~~ - Dropped the idea of kitty. Kitty using twice memory compared to foot.
 

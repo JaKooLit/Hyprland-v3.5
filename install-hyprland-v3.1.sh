@@ -31,7 +31,6 @@ swappy
 swayidle 
 swaylock-effects 
 swww 
-waybar
 wget
 wl-clipboard 
 wofi 
@@ -357,6 +356,43 @@ for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${fonts[@]}" "${Extra[@
   fi
 done
 
+# Status Bars (gBar or Waybar)
+printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if you are new to Hyprland \n"
+  while true; do
+    read -rp "${CAT} Which Status Bar to install? gBar or waybar? Enter 'g' or 'w': " choice
+    case "$choice" in
+      g|G)
+        printf "${NOTE} Installing gBar...\n"
+        for BAR1 in gbar-git ; do
+          install_package "$BAR1" 2>&1 | tee -a "$LOG"
+          [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $BAR1 install had failed, please check the install.log"; exit 1; }
+        done
+        # Moving to config folder for copy
+        cp -r assets/Status-bars-configs/gBar config/bar/
+        sed -i '24s/#//' config/hypr/configs/Exec.conf
+        break
+        ;;
+      w|W)
+        printf "${NOTE} Installing waybar...\n"
+        for BAR2 in waybar ; do
+          install_package "$BAR2" 2>&1 | tee -a "$LOG"
+          [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $BAR2 install had failed, please check the install.log"; exit 1; }
+        done
+        # Moving to config folder for copy
+        cp -r assets/Status-bars-configs/waybar config/bar/
+        sed -i '21,23s/#//' config/hypr/configs/Exec.conf
+        break
+        ;;
+      *)
+        printf "%s - Invalid choice. Please enter 'c' or 't'\n" "${ERROR}"
+        continue
+        ;;
+    esac
+  done
+else
+  printf "${NOTE} No themes will be installed..\n"
+fi
+
 echo
 print_success "All necessary packages installed successfully."
 sleep 2
@@ -509,7 +545,7 @@ if [[ $ROG =~ ^[Yy]$ ]]; then
     done
     printf " Activating ROG services...\n"
     sudo systemctl enable --now supergfxd 2>&1 | tee -a "$LOG"
-    sed -i '21s/#//' config/hypr/configs/Execs.conf
+    sed -i '18s/#//' config/hypr/configs/Execs.conf
 else
     printf "${NOTE} Asus ROG software support not installed..\n"
 fi
@@ -651,7 +687,7 @@ set -e # Exit immediately if a command exits with a non-zero status.
 read -n1 -rep "${CAT} Would you like to copy config and wallpaper files? (y,n)" CFG
 if [[ $CFG =~ ^[Yy]$ ]]; then
   # Check for existing config folders and backup
-  for DIR in cava foot hypr swappy swaylock waybar wlogout wofi; do 
+  for DIR in btop cava foot gBar hypr swappy swaylock waybar wofi; do 
     DIRPATH=~/.config/$DIR
     if [ -d "$DIRPATH" ]; then 
       echo -e "${NOTE} - Config for $DIR found, attempting to back up."
@@ -673,9 +709,8 @@ if [[ $CFG =~ ^[Yy]$ ]]; then
   printf " Copying config files...\n"
   mkdir -p ~/.config
   cp -r config/hypr ~/.config/ && { echo "Copy completed!"; } || { echo "Error: Failed to copy hypr config files."; exit 1; } 2>&1 | tee -a "$LOG"
-  cp -r config/waybar ~/.config || { echo "Error: Failed to copy waybar config files."; exit 1; } 2>&1 | tee -a "$LOG"
+  cp -r config/bar/* ~/.config/ || { echo "Error: Failed to copy waybar config files."; exit 1; } 2>&1 | tee -a "$LOG"
   cp -r config/foot ~/.config/ || { echo "Error: Failed to copy foot config files."; exit 1; } 2>&1 | tee -a "$LOG"
-  cp -r config/wlogout ~/.config/ || { echo "Error: Failed to copy wlogout config files."; exit 1; } 2>&1 | tee -a "$LOG"
   cp -r config/btop ~/.config/ || { echo "Error: Failed to copy btop config files."; exit 1; } 2>&1 | tee -a "$LOG"
   cp -r config/cava ~/.config/ || { echo "Error: Failed to copy cava config files."; exit 1; } 2>&1 | tee -a "$LOG"
   cp -r config/swappy ~/.config/ || { echo "Error: Failed to copy swappy config files."; exit 1; } 2>&1 | tee -a "$LOG"
