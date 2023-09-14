@@ -368,6 +368,7 @@ printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if 
           [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $BAR1 install had failed, please check the install.log"; exit 1; }
         done
         # Moving to config folder for copy
+        mkdir -p config/bar
         cp -r assets/Status-bars-configs/gBar config/bar/
         sed -i '24s/#//' config/hypr/configs/Execs.conf
         break
@@ -379,6 +380,7 @@ printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if 
           [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $BAR2 install had failed, please check the install.log"; exit 1; }
         done
         # Moving to config folder for copy
+        mkdir -p config/bar
         cp -r assets/Status-bars-configs/waybar config/bar/
         sed -i '21,23s/#//' config/hypr/configs/Execs.conf
         break
