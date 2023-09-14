@@ -93,7 +93,7 @@ clear
 TERM_WIDTH=$(tput cols)
 
 # Calculate the padding for the message
-MESSAGE="Welcome to my Arch-Hyprland-V3.1 Installer"
+MESSAGE="Welcome to my Arch-Hyprland-V3.5 Installer"
 PAD_LENGTH=$(( ($TERM_WIDTH - ${#MESSAGE}) / 2 ))
 
 # Set the color to green
@@ -370,7 +370,7 @@ printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if 
         # Moving to config folder for copy
         mkdir -p config/bar
         cp -r assets/Status-bars-configs/gBar config/bar/
-        sed -i '24s/#//' config/hypr/configs/Execs.conf
+        sed -i '25s/#//' config/hypr/configs/Execs.conf
         break
         ;;
       w|W)
