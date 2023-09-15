@@ -386,7 +386,7 @@ printf "\n${NOTE} gBar still fairly new. I suggest to install waybar instead if 
         break
         ;;
       *)
-        printf "%s - Invalid choice. Please enter 'c' or 't'\n" "${ERROR}"
+        printf "%s - Invalid choice. Please enter 'g' or 'w'\n" "${ERROR}"
         continue
         ;;
     esac
